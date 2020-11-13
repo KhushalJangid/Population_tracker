@@ -30,6 +30,6 @@ def get_time():
      date.close()
 def write_time():
      date= open(".\\population-tracker\\Readme\\datetime.txt","w")
-     time=str(datetime.now())
+     time=str(datetime.now().strftime("%d-%m-%y %I:%M:%S"))
      date.writeline("Last Updated : "+time)
 
