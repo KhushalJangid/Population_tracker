@@ -7,23 +7,13 @@ import wikipedia as wp
 import mysql.connector as sqlc
 from sqlalchemy import create_engine
 from to_sql import store
-from notif import print_green,print_yellow,print_red
-try:
-    mycon=sqlc.connect(
-        host="localhost",
-        user='khushal',
-        passwd="126444",
-        database='my_project',
-        auth_plugin="mysql_native_password"
-        )
-    mycursor = mycon.cursor()
-except:
-    print_red("Error code(03):Could not connect to MySQL.\n")
-world_csv_loc="""C:\\Users\\Khushal\\Documents\\Python\\my_project\\world_pop.csv"""
-india_csv_loc="""C:\\Users\\Khushal\\Documents\\Python\\my_project\\india_pop.csv"""
+from notif import print_green,print_yellow,print_red,write_time
+
+world_csv_loc=""".\\population-tracker\\csv_files\\world_pop.csv"""
+india_csv_loc=""".\\population-tracker\\csv_files\\india_pop.csv"""
 
 class fetch():
-    def scrape_data_from_world():
+    def scrape_data_from_world(*args):
         print_yellow("Fetching Data from website .....")
         #--------------------------------------------------------  Retrieving World Data from the website  ----------------------------------------------
         r=requests.get('''https://www.worldometers.info/world-population/population-by-country/''')
@@ -44,6 +34,8 @@ class fetch():
         column_names=['Country','Population','Yearly_Change','Net Change','Density','Land Area (Km²)',\
                     'Migrants (net)','Fert. Rate','Med. Age','Urban Pop %','World_Share']
         dtf= pd.DataFrame(table_content[1:,1:],index=range(1,236),columns=column_names)
+        dtf= dtf.drop(['Fert. Rate','Med. Age','Urban Pop %'], axis=1)
+        dtf["Rank"]=range(1,236)
 
         #----- converting string values o int and float
         dtf['Population'] = dtf.Population.str.split(',').str.join('').astype(int)
@@ -51,17 +43,15 @@ class fetch():
         dtf['World_Share'] = dtf.World_Share.str.split('%').str.join('').astype(float)
         dtf['Yearly_Change'] = dtf.Yearly_Change.str.split('%').str.join('').astype(float)
         #--------  storing the data
-        
-
-        mycursor.execute("DROP TABLE IF EXISTS world_pop")
         print_yellow("Saving Data to MySQL and CSV .....")
         try:
             store.save_data(loc=world_csv_loc,df=dtf,name="world_pop")
             print_green("Updated Successfully !")
+            write_time()
         except:
-            print_red("Error !")
+            pass
 
-    def scrape_data_from_india():
+    def scrape_data_from_india(*args):
         print_yellow("Fetching Data from website .....")
         #-------------------------------------------------  Retrieving INDIA-States data from the website  ----------------------------------------------
 
@@ -114,16 +104,16 @@ class fetch():
         dtf2=dtf2[['State/UT','Population','Share','Area','Area_Share','Density','Rank']]
         dtf2.index=range(1,37)
 
-        mycursor.execute("DROP TABLE IF EXISTS india_pop")
         print_yellow("Saving Data to MySQL and CSV .....")
         try:
             store.save_data(loc=india_csv_loc,df=dtf2,name="india_pop")
             print_green("Updated Successfully !")
         except:
-            print_red("Error !")
-
-# fetch.scrape_data_from_india()
+            pass
+        
 # fetch.scrape_data_from_world()
+
+
 
 
 
