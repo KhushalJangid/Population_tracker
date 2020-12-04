@@ -24,12 +24,13 @@ INDIA States Population (2019)\t http://statisticstimes.com/demographics/india/i
 INDIA States Area \t\t https://en.wikipedia.org/wiki/List_of_states_and_union_territories_of_India_by_area""",fg='blue')
            
 def get_time():
-     date= open(".\\population-tracker\\Readme\\datetime.txt","r") 
+     date= open("..\\population-tracker\\Readme\\datetime.txt","r") 
      time=date.readline()
      print(time)
      date.close()
 def write_time():
-     date= open(".\\population-tracker\\Readme\\datetime.txt","w")
+     date= open("..\\population-tracker\\Readme\\datetime.txt","w")
      time=str(datetime.now().strftime("%d-%m-%y %I:%M:%S"))
-     date.writeline("Last Updated : "+time)
+     date.write("Last Updated : "+time)
+     date.close()
 
