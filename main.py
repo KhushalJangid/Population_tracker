@@ -7,6 +7,9 @@ startup()
 from fetch_data import fetch 
 from command import command
 from datetime import datetime 
+from colorama import Fore,init
+import sys
+init(convert=True)
 try:
     get_time()
 except:
@@ -23,23 +26,29 @@ try:
         dtf=pd.read_sql("SELECT * From world_pop",mycon)       
         dtf2=pd.read_sql("SELECT * From india_pop",mycon)
     except :
-        print_red("Loading Database from CSV file...")
-        dtf=pd.read_csv(""".\\population-tracker\\csv_files\\world_pop.csv""",sep='|')
-        dtf2=pd.read_csv(""".\\population-tracker\\csv_files\\india_pop.csv""",sep='|')
+        print_yellow("Loading Database from CSV file...")
+        dtf=pd.read_csv("""..\\population-tracker\\csv_files\\world_pop.csv""",sep='|')
+        dtf2=pd.read_csv("""..\\population-tracker\\csv_files\\india_pop.csv""",sep='|')
 except :
-    fetch.scrape_data_from_india()
-    fetch.scrape_data_from_world()
+    try:
+        print_red("Error code(07): No CSV files found !")
+        fetch.scrape_data_from_india()
+        fetch.scrape_data_from_world()
+    except:
+        print_red("Error code(04): No internet connection error !\nAborting the Program")
+        sys.exit()
 
 while True:
-    print_red('>>>>')
+    print(Fore.RED+'>>>>',Fore.RESET,end="")
     cmd=input().lower()
+    cmd=cmd.replace(" ","")
     try:
         dtf=pd.read_sql("SELECT * From world_pop",mycon)       
         dtf2=pd.read_sql("SELECT * From india_pop",mycon)
     except :
-        dtf=pd.read_csv(""".\\population-tracker\\csv_files\\world_pop.csv""",sep='|')
-        dtf2=pd.read_csv(""".\\population-tracker\\csv_files\\india_pop.csv""",sep='|')
-    if cmd=="update database":
+        dtf=pd.read_csv("""..\\population-tracker\\csv_files\\world_pop.csv""",sep='|')
+        dtf2=pd.read_csv("""..\\population-tracker\\csv_files\\india_pop.csv""",sep='|')
+    if cmd=="updatedatabase":
         try:
             mycon=sqlc.connect(
             host="localhost",
@@ -50,12 +59,13 @@ while True:
             )
             command.update_database()
         except :
-            print_red("Error code(03):Could not connect to mysql.\nLoading Database from CSV file...")
+            print_red("Error code(03):Could not connect to mysql.")
+            print_yellow("Loading Database from CSV file...")
 
-    elif cmd == "show tables":
+    elif cmd == "showtables":
         print("\n1.india_population\n2.world_population")
 
-    elif cmd == "select * from india_population":
+    elif cmd == "select*fromindia_population":
         print(dtf2,"\n")
         print("Total Population of India (as of 2019) : ",sum(dtf2.Population))
 
@@ -69,7 +79,7 @@ while True:
             b=plt.title("Density")
             plt.show()
 
-    elif cmd == "select * from world_population":
+    elif cmd == "select*fromworld_population":
         print(dtf.loc[0:59,:])
         print(dtf.loc[60:119,:])
         print(dtf.loc[120:179,:])
@@ -85,31 +95,31 @@ while True:
             b=plt.title("Density")
             plt.show()
 
-    elif cmd == "select head from india_population":
+    elif cmd == "selectheadfromindia_population":
         command.select_head(dtf2, "State/UT")
 
-    elif cmd == "select head from world_population":
+    elif cmd == "selectheadfromworld_population":
         command.select_head(dtf,"Country")
             
-    elif cmd == "select tail from india_population":
+    elif cmd == "selecttailfromindia_population":
         command.select_tail(dtf2,"State/UT")
 
-    elif cmd == "select tail from world_population":
+    elif cmd == "selecttailfromworld_population":
         command.select_tail(dtf,"Country")
 
-    elif cmd=="search in world_population":
+    elif cmd=="searchinworld_population":
         command.search(dtf,"Country")
 
-    elif cmd=="search in india_population":
+    elif cmd=="searchinindia_population":
         command.search(dtf2,"State/UT")
 
-    elif cmd == "compare world_population":
+    elif cmd == "compareworld_population":
         command.compare(dtf,"Country")    
 
-    elif cmd == "compare india_population":
+    elif cmd == "compareindia_population":
         command.compare(dtf2,"State/UT")  
     
-    elif cmd=='drop database':
+    elif cmd=='dropdatabase':
         try:
             mycon=sqlc.connect(
             host="localhost",
