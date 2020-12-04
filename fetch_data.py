@@ -9,8 +9,8 @@ from sqlalchemy import create_engine
 from to_sql import store
 from notif import print_green,print_yellow,print_red,write_time
 
-world_csv_loc=""".\\population-tracker\\csv_files\\world_pop.csv"""
-india_csv_loc=""".\\population-tracker\\csv_files\\india_pop.csv"""
+world_csv_loc="""..\\population-tracker\\csv_files\\world_pop.csv"""
+india_csv_loc="""..\\population-tracker\\csv_files\\india_pop.csv"""
 
 class fetch():
     def scrape_data_from_world(*args):
