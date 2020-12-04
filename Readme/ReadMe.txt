@@ -1,6 +1,6 @@
 
 This is a Free program, made for the purpose of Anaysing and studying the Population and related data of different parts of the world.
-It is free to distribute and modify.
+It is meant to be run on Command Line and not on python shell or any other terminal.
 
 Modules used in the Program :
 1. Pandas
@@ -14,30 +14,10 @@ Modules used in the Program :
 9. Wikipedia
 10. Click
 11. Colorama
-12. lxml
-13. pymysql
 
-To run the program on any system Replace the following Addresses and Servers with yours :
-CSV Location:
+To run the program on any system Replace the following Server with yours :
 
-1. "c:\\Users\\Khushal\\Documents\\Python\\population-tracker\\world_pop.csv"
-    >main.py
-        >Ln 23, col 25
-        >Ln 32, col 28
-    >fetch_data.py
-        >Ln 22, col 18
-    >command.py
-        >Ln 31, col 36
-
-2. "c:\\Users\\Khushal\\Documents\\Python\\population-tracker\\india_pop.csv"
-    >main.py
-        >Ln 22, col 24
-        >Ln 33, col 29
-    >fetch_data.py
-        >Ln 23, col 18
-    >command.py
-        >Ln 32, col 37
------------------------------------------------------ Optional ------------------------------------------------------------------
+----------------------------------------------------- Recommended (Optional) ------------------------------------------------------------------
 Mysql :
 1. mycon=sqlc.connect(
                       host="localhost",
