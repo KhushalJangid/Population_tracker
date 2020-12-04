@@ -27,9 +27,10 @@ class command():
                 dtf=pd.read_sql("SELECT * From world_pop",mycon)       
                 dtf2=pd.read_sql("SELECT * From india_pop",mycon)
             except :
-                print_red("Error code(03):Could not connect to mysql.\nLoading Database from CSV file...")
-                dtf=pd.read_csv(""".\\population-tracker\\csv_files\\world_pop.csv""",sep='|')
-                dtf2=pd.read_csv(""".\\population-tracker\\csv_files\\india_pop.csv""",sep='|')
+                print_red("Error code(03):Could not connect to mysql.")
+                print_yellow("Loading Database from CSV file...")
+                dtf=pd.read_csv("""..\\population-tracker\\csv_files\\world_pop.csv""",sep='|')
+                dtf2=pd.read_csv("""..\\population-tracker\\csv_files\\india_pop.csv""",sep='|')
     def select_head(dtf,xaxis="text"):
         print(dtf.head(20))
         graph=input("\nWould you like to plot a Graph ? (y/n)\n")
@@ -58,7 +59,7 @@ class command():
             col=input("Enter Row Name : ")
             print("\n",dtf.loc[col,:])
         except:
-            print_red("Error code(05): Search term not found in selected table !")
+            print_red("Error code(05): Search term not found in selected table !\n(hint: First letter of every word should be capital)")
     def compare(dtf,xaxis="country"):
         dtf.index= dtf[xaxis]
         try:
