@@ -42,6 +42,7 @@ while True:
     print(Fore.RED+'>>>>',Fore.RESET,end="")
     cmd=input().lower()
     cmd=cmd.replace(" ","")
+    print("\n")
     try:
         dtf=pd.read_sql("SELECT * From world_pop",mycon)       
         dtf2=pd.read_sql("SELECT * From india_pop",mycon)
@@ -80,10 +81,10 @@ while True:
             plt.show()
 
     elif cmd == "select*fromworld_population":
-        print(dtf.loc[0:59,:])
-        print(dtf.loc[60:119,:])
-        print(dtf.loc[120:179,:])
-        print(dtf.loc[180:234,:])
+        print(dtf.loc[0:59,:],"\n")
+        print(dtf.loc[60:119,:],"\n")
+        print(dtf.loc[120:179,:],"\n")
+        print(dtf.loc[180:234,:],"\n")
         print("\nTotal Population of the World (Live) : ",sum(dtf.Population))
         graph=input("\nWould you like to plot a Graph ? (y/n)\n")
         if graph == 'y':
